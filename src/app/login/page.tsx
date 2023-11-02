@@ -20,12 +20,13 @@ function LoginPage(users) {
 
   const [email, setEmail]       = useState('');
   const [password, setPassword] = useState('');
+
+  // Check for login status
   const loginStatus             = isLoggedIn();
 
-  if(loginStatus){
-    console.log("Redirecting to courses with loginStatus", loginStatus);
+  if(undefined !== loginStatus)
     redirect('/courses');
-  }
+
 
   return (
     <StyletronProvider value={engine}>
