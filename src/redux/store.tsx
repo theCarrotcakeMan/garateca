@@ -16,31 +16,22 @@ import {  persistStore,
        } from "redux-persist";
 import storage from 'redux-persist/lib/storage';
 import { getDefaultMiddleware } from '@reduxjs/toolkit';
-
-const persistConfig = {
-  key: "root",
-  storage: storage,
-//  whitelist: ["accessToken"],
-};
+import rootReducer from "src/redux/reducer";
 
 const customizedMiddleware = getDefaultMiddleware({
   serializableCheck: false
-})
-// Import reducers here
-import { authReducer } from "./Features/Auth/authSlice";
+});
 
 // If the store exists, return the cached store
 console.info("REDUX:  Initializing global store");
 
-const rootReducer = combineReducers({
-  auth: persistReducer(persistConfig, authReducer),
-});
 
-const middlewares = [thunk];
-const middlewareEnhancer = applyMiddleware(...middlewares)
-
-const enhancers = [middlewareEnhancer]
-const composedEnhancers = composeWithDevTools(...enhancers)
+// ----- legacy code ----
+// const middlewares = [thunk];
+// const middlewareEnhancer = applyMiddleware(...middlewares)
+//
+// const enhancers = [middlewareEnhancer]
+// const composedEnhancers = composeWithDevTools(...enhancers)
 
 
 export const store = configureStore({
