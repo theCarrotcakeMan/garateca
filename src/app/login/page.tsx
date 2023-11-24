@@ -21,10 +21,10 @@ function LoginPage(users) {
   const [email, setEmail]       = useState('');
   const [password, setPassword] = useState('');
 
-  // Check for login status
+  // Check for login status and redirect accordingly
   const loginStatus             = isLoggedIn();
 
-  if(undefined !== loginStatus)
+  if(loginStatus)
     redirect('/courses');
 
 
@@ -43,7 +43,7 @@ function LoginPage(users) {
 
               <section className="w-1/3 block m-auto">
                 <h3 className="pb-4">Inicia sesión en tu cuenta</h3>
-                <form onSubmit={handleLogin}>
+                <form onSubmit={handleLogin} >
 
                   <FormControl label="Email">
                     <Input

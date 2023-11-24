@@ -7,6 +7,9 @@ import { Provider as StyletronProvider } from 'styletron-react';
 import { LightTheme, BaseProvider, styled } from 'baseui';
 import { Button, KIND } from 'baseui/button';
 import { MessageCard } from "baseui/message-card";
+import { useAppDispatch } from "src/redux/hooks";
+import { remove } from 'src/redux/Features/Auth/currentUserSlice';
+import { clearSession } from 'src/redux/Features/Auth/currentUserSlice';
 
 import {
   Card,
@@ -21,6 +24,13 @@ function CoursesListingPage() {
 
   const [courses, setCourses] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+
+  const handleLogout = () => {
+    console.log("Clearing session");
+    const dispatched = useAppDispatch(clearSession());
+    const dispatched2 = useAppDispatch(remove());
+    console.log("HelloDispatchedMessage", dispatched, dispatched2);
+  }
 
   const articleElements = () => {
 
@@ -82,6 +92,10 @@ function CoursesListingPage() {
 
             <header className="block w-full m-auto pt-10 pb-20">
               <a href="/"><img src="/media/logo_tg.png" className="block w-52" alt="Tierra Garat - Universidad para capacitación de nuestros colaboradores"/></a>
+              <ul className="">
+                <li>Mi avance</li>
+                <li onClick={handleLogout} >Logout</li>
+              </ul>
             </header>
             <div className="w-9/12 mx-auto">
 

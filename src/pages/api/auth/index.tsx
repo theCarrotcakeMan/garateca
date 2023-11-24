@@ -35,10 +35,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const token = jwt.sign({ user: myUser }, process.env.SECRET, {
         expiresIn: '12h',
       });
-      
+
       return res.json({success: true, jwt: token});
     }
-    return res.json({error: "Authentication error"});
+    return res.status(401).json({success: false, error: "Authentication error"});
   }
 
 }

@@ -2,8 +2,8 @@
 
 import axios from 'axios';
 import { fetchToken } from 'src/lib/auth';
-import { set, remove } from 'src/redux/Features/Auth/authSlice';
 import { store } from 'src/redux/store';
+import { set, remove } from 'src/redux/Features/Auth/authSlice';
 
 
 const handleLogin = async (e: React.FormEvent) => {
@@ -18,20 +18,18 @@ const handleLogin = async (e: React.FormEvent) => {
   };
   const email     = target.email.value;
   const password  = target.password.value;
-
+  console.log(endpoint);
   await axios.post(endpoint, { email, password })
               .then( (response) => {
-
                 if(response.status === 200){
                   const token = response.data.jwt;
                   const dispatched = store.dispatch(set(token));
 
-                  // window.localStorage.setItem('seshToken', token);
                   window.location.href = `${process.env.NEXT_PUBLIC_BASE_URL}courses`;
                 }
 
               }, (error) => {
-                console.log('Login failed from the getgo', error);
+                console.log('Login failed from the start', error);
               });
 
 
@@ -39,7 +37,7 @@ const handleLogin = async (e: React.FormEvent) => {
 
 const isLoggedIn = () => {
   const token =  fetchToken();
-  return token ? token : false;
+  return (null !== token) ? token : false;
 }
 
 export { handleLogin, isLoggedIn };

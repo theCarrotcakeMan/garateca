@@ -3,4 +3,8 @@ const capitalizeFirst = str => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
 
-export {capitalizeFirst}
+const unixTimestamp = () => {
+  return Math.floor(Date.now() / 1000);
+}
+
+export {capitalizeFirst, unixTimestamp}
