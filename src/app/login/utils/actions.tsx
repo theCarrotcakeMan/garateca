@@ -4,7 +4,10 @@ import axios from 'axios';
 import { fetchToken } from 'src/lib/auth';
 import { store } from 'src/redux/store';
 import { set, remove } from 'src/redux/Features/Auth/authSlice';
-
+import { useAppDispatch, useAppSelector } from "src/redux/hooks";
+import { set as setUser, remove as removeUser } from 'src/redux/Features/Auth/currentUserSlice';
+import { set as setAuth, remove as removeAuth } from 'src/redux/Features/Auth/authSlice';
+import { redirect } from 'next/navigation'
 
 const handleLogin = async (e: React.FormEvent) => {
 
@@ -36,8 +39,46 @@ const handleLogin = async (e: React.FormEvent) => {
 }
 
 const isLoggedIn = () => {
-  const token =  fetchToken();
-  return (null !== token) ? token : false;
+
+  const dispatch      =  useAppDispatch();
+  const decodedToken  =  fetchToken(true);
+  var response = null;
+  if(decodedToken){
+    response = false;
+    // TODO: Validate real user object instead
+    if(decodedToken?.name === 'TokenExpiredError'){
+      response = false;
+    }
+    // dispatch( (decoded?.name !== 'TokenExpiredError') ? setUser(decoded.user) : removeUser());
+  }
+  return response;
 }
 
-export { handleLogin, isLoggedIn };
+// Redirect after successful login
+const loginRedirect = () => {
+
+}
+
+// Redirect after successful login
+const logoutRedirect = () => {
+  console.log("Logout redirect");
+  //redirect('/');
+}
+
+// What happens when token is no longer valid
+const faultyTokenCallback = () => {
+
+  const dispatch      =  useAppDispatch();
+  console.log("This is a faulty token, cleaning the shack");
+
+  // Dispatch events to the Redux store
+  // TODO: Only dispatch these events if the store contains information and is not null
+  // dispatch(removeUser());
+  // dispatch(removeAuth());
+
+  logoutRedirect();
+}
+
+
+
+export { handleLogin, isLoggedIn, faultyTokenCallback };

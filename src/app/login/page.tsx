@@ -2,7 +2,7 @@
 
 import axios from 'axios';
 import { useState } from "react";
-import { handleLogin, isLoggedIn } from './utils/actions';
+import { handleLogin, isLoggedIn, faultyTokenCallback } from './utils/actions';
 import { useAppDispatch, useAppSelector } from "src/redux/hooks";
 import ReduxProvider from "src/redux/provider";
 import { redirect } from 'next/navigation'
@@ -22,10 +22,11 @@ function LoginPage(users) {
   const [password, setPassword] = useState('');
 
   // Check for login status and redirect accordingly
-  const loginStatus             = isLoggedIn();
+  const loginStatus = isLoggedIn();
+  console.log("Login status", loginStatus);
 
-  if(loginStatus)
-    redirect('/courses');
+  loginStatus ? redirect('/courses')
+              : faultyTokenCallback();
 
 
   return (

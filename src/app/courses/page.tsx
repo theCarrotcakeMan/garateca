@@ -8,8 +8,10 @@ import { LightTheme, BaseProvider, styled } from 'baseui';
 import { Button, KIND } from 'baseui/button';
 import { MessageCard } from "baseui/message-card";
 import { useAppDispatch } from "src/redux/hooks";
-import { remove } from 'src/redux/Features/Auth/currentUserSlice';
-import { clearSession } from 'src/redux/Features/Auth/currentUserSlice';
+import { remove } from 'src/redux/Features/Auth/authSlice';
+import { redirect } from 'next/navigation';
+import { useRouter }  from 'next/navigation';
+
 
 import {
   Card,
@@ -25,11 +27,16 @@ function CoursesListingPage() {
   const [courses, setCourses] = useState('');
   const [isLoading, setIsLoading] = useState(true);
 
+  const dispatch = useAppDispatch();
+  // const router = useRouter()
+
   const handleLogout = () => {
     console.log("Clearing session");
-    const dispatched = useAppDispatch(clearSession());
-    const dispatched2 = useAppDispatch(remove());
-    console.log("HelloDispatchedMessage", dispatched, dispatched2);
+    dispatch(remove());
+
+    // TODO: Why doesn't this work?! (styles look fucked)
+    // router.push('/login');
+    window.location.replace('/login');
   }
 
   const articleElements = () => {

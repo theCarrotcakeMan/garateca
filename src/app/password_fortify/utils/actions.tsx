@@ -2,8 +2,8 @@ import axios from 'axios';
 
 const getFormOptions = async (setBranchOptions, setRoleOptions) => {
   // TODO: Define baseUrl as env variable
-  const apiUrl = 'http://localhost:3000/api/branches';
-  const apiUrlRoles = 'http://localhost:3000/api/roles';
+  const apiUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}branches`;
+  const apiUrlRoles = `${process.env.NEXT_PUBLIC_API_BASE_URL}roles`;
 
   try {
     await axios.get(apiUrl)

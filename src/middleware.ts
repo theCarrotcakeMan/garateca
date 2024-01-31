@@ -11,8 +11,8 @@ export const config = {
 
 export function middleware(request: NextRequest) {
   // Call our authentication function to check the request
-  const seshToken = fetchToken();
-  console.log("where fetch token", seshToken);
+  // const seshToken = fetchToken();
+  // console.log("where fetch token", seshToken);
   // if (! seshToken ) {
   //   // Respond with JSON indicating an error message
   //   return NextResponse.json(

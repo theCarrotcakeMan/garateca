@@ -3,7 +3,7 @@ import axios from 'axios';
 const getLessonDetail = async (slug, setLessonDetail, setContents) => {
 
   // TODO: Define baseUrl as env variable
-  const apiUrl = `http://localhost:3000/api/lesson/${slug}`;
+  const apiUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}lesson/${slug}`;
 
   try {
     await axios.get(apiUrl)
