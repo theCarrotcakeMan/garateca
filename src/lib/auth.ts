@@ -7,7 +7,6 @@ import { set, remove } from 'src/redux/Features/Auth/currentUserSlice';
 import { redirect } from 'next/navigation'
 
 
-
 const verifyToken = (token) => {
 
   if (!token) {

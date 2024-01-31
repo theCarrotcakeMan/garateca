@@ -23,7 +23,6 @@ function LoginPage(users) {
 
   // Check for login status and redirect accordingly
   const loginStatus = isLoggedIn();
-  console.log("Login status", loginStatus);
 
   loginStatus ? redirect('/courses')
               : faultyTokenCallback();

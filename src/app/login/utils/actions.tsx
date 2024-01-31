@@ -20,7 +20,7 @@ const handleLogin = async (e: React.FormEvent) => {
   };
   const email     = target.email.value;
   const password  = target.password.value;
-  console.log(endpoint);
+
   await axios.post(endpoint, { email, password })
               .then( (response) => {
                 if(response.status === 200){
@@ -60,14 +60,14 @@ const isLoggedIn = () => {
 
 // Redirect after successful login
 const loginCallback = () => {
-  console.log("Login callback - redirect")
+  console.log("CALLBACK: sign in <action>")
   // redirect('/courses');
   window.location.href = `${process.env.NEXT_PUBLIC_BASE_URL}courses`;
 }
 
 // Redirect after successful login
 const logoutCallback = () => {
-  console.log("Logout redirect");
+  console.log("CALLBACK: sign out <action>")
   // Do not redirect home or login, could cause loop
   //redirect('/goodbye');
 }
@@ -76,7 +76,7 @@ const logoutCallback = () => {
 const faultyTokenCallback = () => {
 
   const dispatch      =  useAppDispatch();
-  console.log("This is a faulty token, cleaning the shack");
+  console.log(" :: This is perceived as a faulty token ::");
 
   // Dispatch events to the Redux store
   // TODO: Only dispatch these events if the store contains information and is not null
