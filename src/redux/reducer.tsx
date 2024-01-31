@@ -1,6 +1,6 @@
 "use client"
 
-import { combineReducers  } from "@reduxjs/toolkit";
+import { combineReducers  } from "redux";
 import { persistReducer } from "redux-persist";
 import storage from 'redux-persist/lib/storage';
 
@@ -9,22 +9,19 @@ import storage from 'redux-persist/lib/storage';
 import { authReducer } from "./Features/Auth/authSlice";
 import { currentUserReducer } from "./Features/Auth/currentUserSlice";
 
-const persistConfigAuth = {
+const persistConfig = {
   key: "root",
-  storage: storage,
-//  whitelist: ["accessToken"],
-};
-const persistConfigUser = {
-  key: "root",
-  storage: storage,
-//  whitelist: ["accessToken"],
+  storage,
 };
 
-
-const rootReducer = combineReducers({
-  auth: persistReducer(persistConfigAuth, authReducer),
-  user: persistReducer(persistConfigUser, currentUserReducer),
-});
+const rootReducer = persistReducer( persistConfig, combineReducers({
+  auth: authReducer,
+  user: currentUserReducer,
+}) );
+// const rootReducer = combineReducers({
+//   auth: persistReducer(persistConfigAuth, authReducer),
+//   user: persistReducer(persistConfigUser, currentUserReducer),
+// });
 
 
 export default rootReducer;

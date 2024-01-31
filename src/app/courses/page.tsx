@@ -8,7 +8,7 @@ import { LightTheme, BaseProvider, styled } from 'baseui';
 import { Button, KIND } from 'baseui/button';
 import { MessageCard } from "baseui/message-card";
 import { useAppDispatch } from "src/redux/hooks";
-import { remove } from 'src/redux/Features/Auth/authSlice';
+import { remove as removeAuth } from 'src/redux/Features/Auth/authSlice';
 import { redirect } from 'next/navigation';
 import { useRouter }  from 'next/navigation';
 
@@ -32,7 +32,7 @@ function CoursesListingPage() {
 
   const handleLogout = () => {
     console.log("Clearing session");
-    dispatch(remove());
+    dispatch(removeAuth());
 
     // TODO: Why doesn't this work?! (styles look fucked)
     // router.push('/login');

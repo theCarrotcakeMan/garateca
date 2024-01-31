@@ -5,7 +5,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
 const initialState = {
-  user: null,
+  payload: {},
   session: {
     id: null,
   },
@@ -15,25 +15,21 @@ export const currentUserSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    set: (state, action: PayloadAction<string>) => ({
-      ...state,
-      user: action.payload,
-    }),
-    remove: (state: PayloadAction<null>) => ({
-      ...state,
-      user: null,
-    }),
-    populateSession: (state: PayloadAction<null>) => ({
-      ...state,
-      session: {
-        id: unixTimestamp,
-        ...ation.payload
-      },
-    }),
-    clearSession: (state: PayloadAction<null>) => ({
-      ...state,
-      session: {id: null,},
-    }),
+    set: (state, action: PayloadAction<string>) => {
+      state.payload = action.payload
+    },
+    remove: ( state, action: PayloadAction<null> ) => {
+      state.payload = null
+    },
+    populateSession: (state, action: PayloadAction<null> ) => {
+      state.session = {
+                        id: unixTimestamp,
+                        ...action.payload
+                      };
+    },
+    clearSession: (state, action: PayloadAction<null>) => {
+      state.session = { id: null }
+    },
   },
 });
 

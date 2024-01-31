@@ -1,13 +1,12 @@
 'use client'
 
 import axios from 'axios';
-import { fetchToken } from 'src/lib/auth';
+import { fetchToken, verifyToken } from 'src/lib/auth';
+import { redirect } from 'next/navigation'
 import { store } from 'src/redux/store';
-import { set, remove } from 'src/redux/Features/Auth/authSlice';
 import { useAppDispatch, useAppSelector } from "src/redux/hooks";
 import { set as setUser, remove as removeUser } from 'src/redux/Features/Auth/currentUserSlice';
 import { set as setAuth, remove as removeAuth } from 'src/redux/Features/Auth/authSlice';
-import { redirect } from 'next/navigation'
 
 const handleLogin = async (e: React.FormEvent) => {
 
@@ -26,9 +25,14 @@ const handleLogin = async (e: React.FormEvent) => {
               .then( (response) => {
                 if(response.status === 200){
                   const token = response.data.jwt;
-                  const dispatched = store.dispatch(set(token));
+                  store.dispatch(setAuth(token));
 
-                  window.location.href = `${process.env.NEXT_PUBLIC_BASE_URL}courses`;
+                  const userObject = verifyToken(response.data.jwt);
+                  console.log(userObject.user);
+                  if(userObject?.user)
+                    store.dispatch(setUser(userObject.user));
+
+                  loginCallback();
                 }
 
               }, (error) => {
@@ -49,20 +53,23 @@ const isLoggedIn = () => {
     if(decodedToken?.name === 'TokenExpiredError'){
       response = false;
     }
-    // dispatch( (decoded?.name !== 'TokenExpiredError') ? setUser(decoded.user) : removeUser());
+
   }
   return response;
 }
 
 // Redirect after successful login
-const loginRedirect = () => {
-
+const loginCallback = () => {
+  console.log("Login callback - redirect")
+  // redirect('/courses');
+  window.location.href = `${process.env.NEXT_PUBLIC_BASE_URL}courses`;
 }
 
 // Redirect after successful login
-const logoutRedirect = () => {
+const logoutCallback = () => {
   console.log("Logout redirect");
-  //redirect('/');
+  // Do not redirect home or login, could cause loop
+  //redirect('/goodbye');
 }
 
 // What happens when token is no longer valid
@@ -73,10 +80,10 @@ const faultyTokenCallback = () => {
 
   // Dispatch events to the Redux store
   // TODO: Only dispatch these events if the store contains information and is not null
-  dispatch(removeUser());
-  dispatch(removeAuth());
+  // dispatch(removeUser());
+  // dispatch(removeAuth());
 
-  logoutRedirect();
+  logoutCallback();
 }
 
 
