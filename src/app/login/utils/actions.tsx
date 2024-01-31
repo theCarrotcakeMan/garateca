@@ -73,8 +73,8 @@ const faultyTokenCallback = () => {
 
   // Dispatch events to the Redux store
   // TODO: Only dispatch these events if the store contains information and is not null
-  // dispatch(removeUser());
-  // dispatch(removeAuth());
+  dispatch(removeUser());
+  dispatch(removeAuth());
 
   logoutRedirect();
 }
