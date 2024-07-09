@@ -1,10 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-import Course from 'model/course';
-import Lesson from 'model/lesson';
-import initConn from 'src/lib/db';
+import Course from '/model/course';
+import Lesson from '/model/lesson';
+import initConn from '/src/lib/db';
 
-import { fetchToken } from 'src/lib/auth';
+import { useToken } from 'src/lib/auth';
 
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {

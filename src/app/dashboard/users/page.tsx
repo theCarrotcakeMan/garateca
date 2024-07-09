@@ -3,6 +3,8 @@
 import { getUsers } from './utils/actions';
 import { useState, setState, useEffect } from "react";
 import type { NextApiResponse } from 'next';
+import { Image } from 'next/image';
+
 import { Client as Styletron } from 'styletron-engine-atomic';
 import { Provider as StyletronProvider } from 'styletron-react';
 import { LightTheme, BaseProvider, styled } from 'baseui';
@@ -32,7 +34,13 @@ const UsersPage = () => {
         <div className="flex flex-row" >
           <nav className="w-1/4 h-screen bg-mustard drop-shadow-sm">
             <header className="m-auto p-6">
-            <a href="#"><img src="/logo_tg.png" className="block w-52" alt="Tierra Garat"/></a>
+            <a href="#">
+              <Image
+                src="/logo_tg.png"
+                className="block w-full"
+                alt="Tierra Garat"
+              />
+            </a>
             </header>
               <Navigation
               items={[

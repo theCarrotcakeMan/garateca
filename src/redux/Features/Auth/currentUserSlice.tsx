@@ -1,6 +1,6 @@
 "use client";
 
-import { unixTimestamp } from "src/lib/utils";
+import { unixTimestamp } from "/src/lib/utils";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
@@ -10,6 +10,7 @@ const initialState = {
     id: null,
   },
 };
+const timestamp = unixTimestamp();
 
 export const currentUserSlice = createSlice({
   name: "user",
@@ -21,11 +22,11 @@ export const currentUserSlice = createSlice({
     remove: ( state, action: PayloadAction<null> ) => {
       state.payload = null
     },
-    populateSession: (state, action: PayloadAction<null> ) => {
+    populateSession: ( state, action: PayloadAction<null> ) => {
       state.session = {
-                        id: unixTimestamp,
+                        id: timestamp,
                         ...action.payload
-                      };
+                      }
     },
     clearSession: (state, action: PayloadAction<null>) => {
       state.session = { id: null }

@@ -11,4 +11,6 @@ const lessonSchema = new Schema({
                                 });
 
 // Create and export the Lesson model
-module.exports = mongoose.models.Lesson || mongoose.model('Lesson', lessonSchema);
+const Lesson = mongoose.models.Lesson || mongoose.model('Lesson', lessonSchema);
+
+export default Lesson;

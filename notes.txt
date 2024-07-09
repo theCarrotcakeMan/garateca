@@ -2,3 +2,15 @@ notes.txt
 
 Accept invite link reference:
 http://localhost:3000/signup?invite=0002&employee=1234&acceptInvite=1
+
+Missing functionality
+
+Courses
+  Completion tracking
+Exams
+
+Dashboard
+  Completion
+
+General
+  Access matrix

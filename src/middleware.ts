@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import { fetchToken } from 'src/lib/auth';
+import { useToken } from 'src/lib/auth';
 
 export const config = {
   matcher: [
@@ -11,7 +11,7 @@ export const config = {
 
 export function middleware(request: NextRequest) {
   // Call our authentication function to check the request
-  // const seshToken = fetchToken();
+  // const seshToken = useToken();
   // console.log("where fetch token", seshToken);
   // if (! seshToken ) {
   //   // Respond with JSON indicating an error message

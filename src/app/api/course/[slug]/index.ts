@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-import Course from 'model/course';
-import initConn from 'src/lib/db';
+import Course from '/model/course';
+import initConn from '/src/lib/db';
 
 // import { reduceUser } from 'src/lib/reductors';
 

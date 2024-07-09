@@ -1,18 +1,17 @@
 "use client"
 
 import { getCoursesListing } from './utils/actions';
-import { useEffect, useState, Fragment } from "react";
+import { useEffect, useState, Fragment } from 'react';
+import { useRouter } from 'next/router';
+import { Image } from 'next/image'
+
 import { Client as Styletron } from 'styletron-engine-atomic';
 import { Provider as StyletronProvider } from 'styletron-react';
 import { LightTheme, BaseProvider, styled } from 'baseui';
 import { Button, KIND } from 'baseui/button';
-import { MessageCard } from "baseui/message-card";
-import { useAppDispatch } from "src/redux/hooks";
-import { remove as removeAuth } from 'src/redux/Features/Auth/authSlice';
-import { redirect } from 'next/navigation';
-import { useRouter }  from 'next/navigation';
-
-
+import { MessageCard } from 'baseui/message-card';
+import { useAppDispatch } from "/src/redux/hooks";
+import { remove as removeAuth } from '/src/redux/Features/Auth/authSlice';
 import {
   Card,
   StyledBody,
@@ -22,22 +21,21 @@ import { HeadingLevel, Heading } from 'baseui/heading';
 
 const engine = new Styletron();
 
+const handleLogout = () => {
+
+  console.log("Clearing session");
+  dispatch(removeAuth());
+
+  router.push('login');
+}
+
 function CoursesListingPage() {
 
   const [courses, setCourses] = useState('');
   const [isLoading, setIsLoading] = useState(true);
 
   const dispatch = useAppDispatch();
-  // const router = useRouter()
-
-  const handleLogout = () => {
-    console.log("Clearing session");
-    dispatch(removeAuth());
-
-    // TODO: Why doesn't this work?! (styles look fucked)
-    // router.push('/login');
-    window.location.replace('/login');
-  }
+  const router = useRouter();
 
   const articleElements = () => {
 
@@ -98,7 +96,12 @@ function CoursesListingPage() {
           <section id="container" className="container m-auto min-h-screen">
 
             <header className="block w-full m-auto pt-10 pb-20">
-              <a href="/"><img src="/media/logo_tg.png" className="block w-52" alt="Tierra Garat - Universidad para capacitación de nuestros colaboradores"/></a>
+              <a href="/">
+                <Image src="/media/logo_tg.png"
+                  className="block w-52"
+                  alt="Tierra Garat - Universidad para capacitación de nuestros colaboradores"
+                  />
+              </a>
               <ul className="">
                 <li>Mi avance</li>
                 <li onClick={handleLogout} >Logout</li>

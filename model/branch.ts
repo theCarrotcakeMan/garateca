@@ -6,9 +6,10 @@ const branchSchema = new Schema({
                                   status: String,
                                   slug: String,
                                   legacyId: Number,
-                                  status: String,
                                   address: mongoose.Mixed,
                                 });
 
 // Create and export the Branch model
-module.exports = mongoose.models.Branch || mongoose.model('Branch', branchSchema);
+const Branch = mongoose.models.Branch || mongoose.model('Branch', branchSchema);
+
+export default Branch;

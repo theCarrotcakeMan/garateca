@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { store } from '/src/redux/store';
+import { setCurrentContent } from '/src/redux/Features/Progress/smartIndexSlice';
 
 const getLessonDetail = async (slug, setLessonDetail, setContents) => {
 
@@ -9,8 +11,9 @@ const getLessonDetail = async (slug, setLessonDetail, setContents) => {
     await axios.get(apiUrl)
       .then(response => {
         setLessonDetail(response.data);
+        store.dispatch(setCurrentContent(response.data.contents));
         const responseContent = { ...response.data };
-        console.log("hey",responseContent);
+        console.log("Hey from the content manager", responseContent);
         setContents(responseContent.contents);
       })
       .catch(error => {

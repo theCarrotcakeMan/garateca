@@ -4,6 +4,7 @@ const capitalizeFirst = str => {
 };
 
 const unixTimestamp = () => {
+  console.log("Creating timestamp");
   return Math.floor(Date.now() / 1000);
 }
 

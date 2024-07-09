@@ -18,17 +18,38 @@ import {
   Card,
   StyledAction
 } from "baseui/card";
+import { Image } from 'next/image';
+
 
 const engine = new Styletron();
 
+interface DetailType {
+  label: string,
+  lessons: Array<object>,
+}
+
 function CourseDetailPage ({ params }: { params: { slug: string } }) {
 
+  const [courseDetail, setCourseDetail] = useState<DetailType>({label: ''});
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect( () => {
+
+    getCourseDetail(params.slug, setCourseDetail);
+
+  }, []);
+
+  useEffect( () => {
+
+    if(courseDetail)
+      setIsLoading(false);
+
+  }, [courseDetail]);
+  
   // Throw 404 if no slug is present in the url
   if(! params?.slug)
     return notFound();
 
-  const [courseDetail, setCourseDetail] = useState('');
-  const [isLoading, setIsLoading] = useState(true);
 
   const renderDetailComponents = () => {
 
@@ -68,19 +89,6 @@ function CourseDetailPage ({ params }: { params: { slug: string } }) {
     );
   }
 
-  useEffect( () => {
-
-    getCourseDetail(params.slug, setCourseDetail);
-
-  }, []);
-
-  useEffect( () => {
-
-    if(courseDetail)
-      setIsLoading(false);
-
-  }, [courseDetail]);
-
 
   return (
       <StyletronProvider value={engine}>
@@ -90,7 +98,13 @@ function CourseDetailPage ({ params }: { params: { slug: string } }) {
             <section id="container" className="container m-auto min-h-screen">
 
               <header className="block w-full m-auto pt-10 pb-20">
-                <a href="/"><img src="/media/logo_tg.png" className="block w-52" alt="Tierra Garat - Universidad para capacitación de nuestros colaboradores"/></a>
+                <a href="/">
+                  <Image
+                    src="/media/logo_tg.png"
+                    className="block w-52"
+                    alt="Tierra Garat - Universidad para capacitación de nuestros colaboradores"
+                    />
+                </a>
               </header>
               <div className="w-9/12 mx-auto">
 

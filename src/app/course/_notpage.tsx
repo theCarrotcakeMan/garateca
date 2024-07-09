@@ -5,6 +5,8 @@ import { getCoursesListing } from './utils/actions';
 import { useEffect, useState, Fragment } from "react";
 import { Client as Styletron } from 'styletron-engine-atomic';
 import { Provider as StyletronProvider } from 'styletron-react';
+import { Image } from 'next/image';
+
 import { LightTheme, BaseProvider, styled } from 'baseui';
 import { Button, KIND } from 'baseui/button';
 import {
@@ -78,7 +80,13 @@ function CoursesListingPage() {
           <section id="container" className="container m-auto">
 
             <header className="block w-full m-auto pt-10 pb-20">
-              <a href="/"><img src="logo_tg.png" className="block w-52" alt="Tierra Garat - Universidad para capacitación de nuestros colaboradores"/></a>
+              <a href="/">
+                <Image
+                  src="logo_tg.png"
+                  className="block w-52" 
+                  alt="Tierra Garat - Universidad para capacitación de nuestros colaboradores"
+                  />
+              </a>
             </header>
             <div className="w-9/12 mx-auto">
 

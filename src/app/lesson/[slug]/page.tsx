@@ -1,5 +1,5 @@
 "use client"
-import { notFound } from 'next/navigation'
+import { notFound } from 'next/navigation';
 
 import { getLessonDetail } from './utils/actions';
 import { useEffect, useState, Fragment } from "react";
@@ -7,6 +7,7 @@ import { Client as Styletron } from 'styletron-engine-atomic';
 import { Provider as StyletronProvider } from 'styletron-react';
 import { LightTheme, BaseProvider, styled } from 'baseui';
 import { Button, KIND } from 'baseui/button';
+import { Image } from 'next/image';
 
 import { MessageCard, IMAGE_LAYOUT } from "baseui/message-card";
 import { HeadingLevel, Heading } from 'baseui/heading';
@@ -15,16 +16,14 @@ import {
   StyledAction
 } from "baseui/card";
 import {
-  Alert
+  Alert,
+  ArrowRight,
 } from 'baseui/icon';
+import YouTube from 'react-youtube';
 
 const engine = new Styletron();
 
 function LessonDetailPage ({ params }: { params: { slug: string } }) {
-
-  // Throw 404 if no slug is present in the url
-  if(! params?.slug)
-    return notFound();
 
   const [lessonDetail, setLessonDetail] = useState('');
   const [contents, setContents]         = useState('');
@@ -32,13 +31,69 @@ function LessonDetailPage ({ params }: { params: { slug: string } }) {
   const [isLoading, setIsLoading]       = useState(true);
   const [isLoadingQueue, setIsLoadingQueue] = useState(true);
 
+  useEffect( () => {
+
+    getLessonDetail(params.slug, setLessonDetail, setContents);
+
+  }, []);
+
+  useEffect( () => {
+
+    if(lessonDetail)
+      setIsLoading(false);
+
+  }, [lessonDetail]);
+
+
+  // Throw 404 if no slug is present in the url
+  if(! params?.slug)
+    return notFound();
+
   const renderMainView = () => {
+
+    const opts = {
+      height: '320',
+      width: '600',
+      playerVars: {
+        // https://developers.google.com/youtube/player_parameters
+        autoplay: 0,
+        controls: 0,
+        disablekb: 1,
+      },
+    };
+    const _onReady = function(event) {
+      // access to player in all event handlers via event.target
+      event.target.pauseVideo();
+    }
+    const _onFinishWatching = function(event) {
+      // access to player in all event handlers via event.target
+      event.target.pauseVideo();
+    }
+
+    // return <div id="PartesPrivadas"><YouTube videoId={${contents[0].attachments.mediaUrl} opts={opts} onReady={this._onReady} /></div>;
+
     return(
       (lessonDetail.contents[0].type === 'media') ?
-          <iframe width="600" height="320" src={`https://www.youtube.com/embed/${contents[0].attachments.mediaUrl}`} title={contents[0].attachments.mediaUrl} frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
+          <Fragment>
+            <YouTube videoId={contents[0].attachments.mediaUrl} opts={opts} onReady={_onReady} />
+            <div>
+              Llamalo como quieras
+              <Button
+                kind="secondary"
+                // onClick={() => {window.location.href = `/lesson/${item.slug}`}}
+                endEnhancer={() => <ArrowRight size={24} />}
+                overrides={{
+                  BaseButton: { style: { width: "86%", bottom: '1rem', position: 'absolute', backgroundColor: "#F2F2F2", color: "#353333" } }
+                }} >
+                Comenzar el módulo
+              </Button>
+            </div>
+          </Fragment>
         : <p>Error getting media</p>
     )
+
   }
+
   const renderSideView = () => {
     console.log("Rendering side view", contents);
     // const apiKey = 'AIzaSyDSyGjGBgjWQJlw4om36f7NwFPo9vY66_0';
@@ -101,19 +156,6 @@ function LessonDetailPage ({ params }: { params: { slug: string } }) {
     );
   }
 
-  useEffect( () => {
-
-    getLessonDetail(params.slug, setLessonDetail, setContents);
-
-  }, []);
-
-  useEffect( () => {
-
-    if(lessonDetail)
-      setIsLoading(false);
-
-  }, [lessonDetail]);
-
 
   return (
       <StyletronProvider value={engine}>
@@ -122,7 +164,12 @@ function LessonDetailPage ({ params }: { params: { slug: string } }) {
             <section id="container" className="container m-auto min-h-screen">
 
               <header className="block w-full m-auto pt-10 pb-20">
-                <a href="/"><img src="/media/logo_tg.png" className="block w-52" alt="Tierra Garat - Universidad para capacitación de nuestros colaboradores"/></a>
+                <a href="/">
+                  <Image src="/media/logo_tg.png"
+                    className="block w-52"
+                    alt="Tierra Garat - Universidad para capacitación de nuestros colaboradores"
+                    />
+                </a>
               </header>
               <div className="w-9/12 mx-auto">
 

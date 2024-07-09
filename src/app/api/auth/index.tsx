@@ -2,8 +2,8 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import jwt from 'jsonwebtoken';
 import md5 from 'md5';
 
-import User from 'model/user';
-import initConn from 'src/lib/db';
+import User from '/model/user';
+import initConn from '/src/lib/db';
 
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {

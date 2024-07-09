@@ -1,8 +1,17 @@
 "use client"
 
+import { Image } from 'next/image';
+
 const MainFooter = () => (
     <footer className="bottom-0 py-6 w-screen text-center bg-action flex justify-center">
-      <a href=""><img src="/media/LogoFooter.png" className="w-28 m-4" style={{minWidth: '100px'}} /></a>
+      <a href="">
+        <Image
+          src="/media/LogoFooter.png"
+          alt="Tierra Garat logotipo small"
+          className="w-28 m-4"
+          style={{minWidth: '100px'}}
+          />
+      </a>
       <ul className="m-4 text-left text-white leading-10 text-sm">
         <h3 className="text-lg font-bold">CONTACTO</h3>
         <li><a href="mailto: info@universidadtierragarat.com">info@universidadtierragarat.com</a></li>

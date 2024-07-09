@@ -6,10 +6,11 @@ const courseSchema = new Schema({
                                   status: String,
                                   slug: String,
                                   order: Number,
-                                  status: String,
                                   category: String,
                                   lessons: mongoose.Mixed,
                                 });
 
 // Create and export the Course model
-module.exports = mongoose.models.Course || mongoose.model('Course', courseSchema);
+const Course = mongoose.models.Course || mongoose.model('Course', courseSchema);
+
+export default Course;

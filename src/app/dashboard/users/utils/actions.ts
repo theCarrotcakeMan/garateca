@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useState, setState } from "react";
-import { capitalizeFirst } from 'src/lib/utils';
+import { capitalizeFirst } from '/src/lib/utils';
 
 import {
     CustomColumn,

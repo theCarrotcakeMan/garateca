@@ -1,8 +1,8 @@
-import 'src/assets/globals.css';
+import '/src/assets/globals.css';
 
 import type { Metadata } from 'next';
-import FooterWrapper from "./pieces/FooterWrapper";
-import ReduxProvider from "src/redux/provider";
+import FooterWrapper from './pieces/FooterWrapper';
+import { ReduxProvider } from '/src/redux/provider';
 
 export const metadata: Metadata = {
   title: 'Universidad Tierra Garat ',

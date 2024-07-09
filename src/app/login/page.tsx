@@ -1,11 +1,11 @@
 "use client"
 
 import axios from 'axios';
-import { useState } from "react";
-import { handleLogin, isLoggedIn, faultyTokenCallback } from './utils/actions';
-import { useAppDispatch, useAppSelector } from "src/redux/hooks";
-import ReduxProvider from "src/redux/provider";
+import { useState } from 'react';
+import { handleLogin, useLoggedStatus, faultyTokenCallback } from './utils/actions';
+import { ReduxProvider } from '/src/redux/provider';
 import { redirect } from 'next/navigation'
+import { Image } from 'next/image';
 
 import { Client as Styletron } from 'styletron-engine-atomic';
 import { Provider as StyletronProvider } from 'styletron-react';
@@ -22,7 +22,7 @@ function LoginPage(users) {
   const [password, setPassword] = useState('');
 
   // Check for login status and redirect accordingly
-  const loginStatus = isLoggedIn();
+  const loginStatus = useLoggedStatus();
 
   loginStatus ? redirect('/courses')
               : faultyTokenCallback();
@@ -38,7 +38,13 @@ function LoginPage(users) {
             <div className="flex flex-col justify-center min-h-fit items-center">
 
               <header className="block w-3/5 m-auto p-20">
-                <a href="#"><img src="logo_tg.png" className="block w-full" alt="Tierra Garat"/></a>
+                <a href="#">
+                  <Image
+                    src="logo_tg.png"
+                    className="block w-full"
+                    alt="Tierra Garat"
+                    />
+                </a>
               </header>
 
               <section className="w-1/3 block m-auto">
@@ -60,7 +66,6 @@ function LoginPage(users) {
                       type="password"
                       placeholder="*******"
                       value={password}
-                      name="password"
                       name="password"
                       required
                       onChange={(e) => setPassword(e.target.value)}

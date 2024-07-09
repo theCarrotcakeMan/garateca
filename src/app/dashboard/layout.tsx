@@ -1,4 +1,4 @@
-import 'src/assets/globals.css';
+import '/src/assets/globals.css';
 
 import type { Metadata } from 'next'
 

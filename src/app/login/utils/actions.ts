@@ -1,12 +1,43 @@
 'use client'
 
 import axios from 'axios';
-import { fetchToken, verifyToken } from 'src/lib/auth';
+import { useToken, verifyToken } from '/src/lib/auth';
 import { redirect } from 'next/navigation'
-import { store } from 'src/redux/store';
-import { useAppDispatch, useAppSelector } from "src/redux/hooks";
-import { set as setUser, remove as removeUser } from 'src/redux/Features/Auth/currentUserSlice';
-import { set as setAuth, remove as removeAuth } from 'src/redux/Features/Auth/authSlice';
+import { store } from '/src/redux/store';
+import { useAppDispatch, useAppSelector } from "/src/redux/hooks";
+import { set as setUser, remove as removeUser, populateSession } from '/src/redux/Features/Auth/currentUserSlice';
+import { set as setAuth, remove as removeAuth } from '/src/redux/Features/Auth/authSlice';
+
+
+const useLoggedStatus = () => {
+
+  const decodedToken  =  useToken(true);
+  var response = null;
+  if(decodedToken){
+    response = false;
+    // TODO: Validate real user object instead
+    if(decodedToken?.name === 'TokenExpiredError'){
+      response = false;
+    }
+
+  }
+  return response;
+}
+
+// Redirect after successful login
+const loginCallback = () => {
+  console.log("CALLBACK: sign in <action>");
+  store.dispatch( populateSession() );
+  // redirect('/courses');
+  window.location.href = `${process.env.NEXT_PUBLIC_BASE_URL}courses`;
+}
+
+// Redirect after successful login
+const logoutCallback = () => {
+  console.log("CALLBACK: sign out <action>")
+  // Do not redirect home or login, could cause loop
+  //redirect('/goodbye');
+}
 
 const handleLogin = async (e: React.FormEvent) => {
 
@@ -42,50 +73,19 @@ const handleLogin = async (e: React.FormEvent) => {
 
 }
 
-const isLoggedIn = () => {
-
-  const dispatch      =  useAppDispatch();
-  const decodedToken  =  fetchToken(true);
-  var response = null;
-  if(decodedToken){
-    response = false;
-    // TODO: Validate real user object instead
-    if(decodedToken?.name === 'TokenExpiredError'){
-      response = false;
-    }
-
-  }
-  return response;
-}
-
-// Redirect after successful login
-const loginCallback = () => {
-  console.log("CALLBACK: sign in <action>")
-  // redirect('/courses');
-  window.location.href = `${process.env.NEXT_PUBLIC_BASE_URL}courses`;
-}
-
-// Redirect after successful login
-const logoutCallback = () => {
-  console.log("CALLBACK: sign out <action>")
-  // Do not redirect home or login, could cause loop
-  //redirect('/goodbye');
-}
-
 // What happens when token is no longer valid
 const faultyTokenCallback = () => {
 
-  const dispatch      =  useAppDispatch();
   console.log(" :: This is perceived as a faulty token ::");
 
   // Dispatch events to the Redux store
   // TODO: Only dispatch these events if the store contains information and is not null
-  // dispatch(removeUser());
-  // dispatch(removeAuth());
+  // store.dispatch(removeUser());
+  // store.dispatch(removeAuth());
 
   logoutCallback();
 }
 
 
 
-export { handleLogin, isLoggedIn, faultyTokenCallback };
+export { handleLogin, useLoggedStatus, faultyTokenCallback };

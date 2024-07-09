@@ -4,6 +4,7 @@ import axios from 'axios'
 import { useEffect, useState, Fragment } from "react";
 import { getFormOptions, initUrlParamsInformation } from './utils/actions';
 import { useRouter } from 'next/router';
+import { Image } from 'next/image';
 
 import { Client as Styletron } from 'styletron-engine-atomic';
 import { Provider as StyletronProvider } from 'styletron-react';
@@ -17,7 +18,7 @@ import { Toast, ToasterContainer, toaster } from 'baseui/toast';
 
 const engine = new Styletron();
 
-export const toastMessage = ( messageType:any, message:String ) => {
+const toastMessage = ( messageType:any, message:String ) => {
   console.log("Toasting message ", message);
   // return toaster[messageType](message);
   return (    <Fragment>
@@ -103,7 +104,13 @@ function SignPage() {
             <div className="flex flex-col justify-center min-h-fit items-center">
 
               <header className="block w-1/3 m-auto py-20">
-                <a href="/"><img src="logo_tg.png" className="block w-full" alt="Tierra Garat"/></a>
+                <a href="/">
+                  <Image
+                    src="/logo_tg.png"
+                    className="block w-full"
+                    alt="Tierra Garat"
+                  />
+                </a>
               </header>
 
               <form id="signupForm" onSubmit={handleRegistration} className="block w-3/5 mb-12">

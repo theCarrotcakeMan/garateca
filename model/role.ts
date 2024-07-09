@@ -6,7 +6,6 @@ const employeeRoleSchema = new Schema({
                                         status: String,
                                         slug: String,
                                         legacyId: Number,
-                                        status: String,
                                         description: String,
                                       },
                                       {
@@ -17,4 +16,6 @@ const employeeRoleSchema = new Schema({
                                       });
 
 // Create and export the Role model
-module.exports = mongoose.models.EmployeeRole || mongoose.model('EmployeeRole', employeeRoleSchema);
+const Role = mongoose.models.EmployeeRole || mongoose.model('EmployeeRole', employeeRoleSchema);
+
+export default Role;

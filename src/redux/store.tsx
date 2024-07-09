@@ -3,7 +3,7 @@
 import { combineReducers, configureStore, applyMiddleware  } from "@reduxjs/toolkit";
 import { useDispatch, TypedUseSelectorHook, useSelector } from "react-redux";
 import { composeWithDevTools } from 'redux-devtools-extension';
-import thunk from 'redux-thunk';
+import { thunk } from 'redux-thunk';
 import { createWrapper } from "next-redux-wrapper";
 import {  persistStore,
           persistReducer,
@@ -14,9 +14,9 @@ import {  persistStore,
           PURGE,
           REGISTER,
        } from "redux-persist";
-import storage from 'redux-persist/lib/storage';
+import { storage } from 'redux-persist/lib/storage';
 import { getDefaultMiddleware } from '@reduxjs/toolkit';
-import rootReducer from "src/redux/reducer";
+import { rootReducer } from "/src/redux/reducer";
 
 const customizedMiddleware = getDefaultMiddleware({
   serializableCheck: false
