@@ -5,7 +5,7 @@ import { getCoursesListing } from './utils/actions';
 import { useEffect, useState, Fragment } from "react";
 import { Client as Styletron } from 'styletron-engine-atomic';
 import { Provider as StyletronProvider } from 'styletron-react';
-import { Image } from 'next/image';
+import Image from 'next/image';
 
 import { LightTheme, BaseProvider, styled } from 'baseui';
 import { Button, KIND } from 'baseui/button';

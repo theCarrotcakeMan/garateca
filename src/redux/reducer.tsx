@@ -2,7 +2,7 @@
 
 import { combineReducers  } from "redux";
 import { persistReducer } from "redux-persist";
-import { storage } from 'redux-persist/lib/storage';
+import storage from 'redux-persist/lib/storage';
 
 // Import Auth reducers
 import { authReducer } from "./Features/Auth/authSlice";

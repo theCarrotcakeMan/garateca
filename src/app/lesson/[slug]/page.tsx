@@ -1,14 +1,12 @@
 "use client"
+
 import { notFound } from 'next/navigation';
+import Image from 'next/image';
 
 import { getLessonDetail } from './utils/actions';
 import { useEffect, useState, Fragment } from "react";
-import { Client as Styletron } from 'styletron-engine-atomic';
-import { Provider as StyletronProvider } from 'styletron-react';
-import { LightTheme, BaseProvider, styled } from 'baseui';
-import { Button, KIND } from 'baseui/button';
-import { Image } from 'next/image';
 
+import { Button, KIND } from 'baseui/button';
 import { MessageCard, IMAGE_LAYOUT } from "baseui/message-card";
 import { HeadingLevel, Heading } from 'baseui/heading';
 import {
@@ -20,8 +18,6 @@ import {
   ArrowRight,
 } from 'baseui/icon';
 import YouTube from 'react-youtube';
-
-const engine = new Styletron();
 
 function LessonDetailPage ({ params }: { params: { slug: string } }) {
 
@@ -158,53 +154,50 @@ function LessonDetailPage ({ params }: { params: { slug: string } }) {
 
 
   return (
-      <StyletronProvider value={engine}>
-        <BaseProvider theme={LightTheme}>
-          <div id="backgroundContainer" className="bg-sand-pattern bg-repeat-x bg-bottom bg-blend-multiply pb-32">
-            <section id="container" className="container m-auto min-h-screen">
+      <div id="backgroundContainer" className="bg-sand-pattern bg-repeat-x bg-bottom bg-blend-multiply pb-32">
+        <section id="container" className="container m-auto min-h-screen">
 
-              <header className="block w-full m-auto pt-10 pb-20">
-                <a href="/">
-                  <Image src="/media/logo_tg.png"
-                    className="block w-52"
-                    alt="Tierra Garat - Universidad para capacitación de nuestros colaboradores"
-                    />
-                </a>
-              </header>
-              <div className="w-9/12 mx-auto">
+          <header className="block w-full m-auto pt-10 pb-20">
+            <a href="/">
+              <Image src="/media/logo_tg.png"
+                width={1030}
+                height={300}
+                className="block w-52"
+                alt="Tierra Garat - Universidad para capacitación de nuestros colaboradores"
+                />
+            </a>
+          </header>
+          <div className="w-9/12 mx-auto">
 
-                <MessageCard
-                    heading={<p><Alert size={24} /> Tu progreso está a salvo</p>}
-                    paragraph="Recuerda que tu progreso se mantiene a salvo en tu cuenta, para guardar el avance es necesario que visualices el material en su totalidad."
-                    image={{
-                      src: '/media/LogoFooter.png',
-                      layout: IMAGE_LAYOUT.trailing,
-                      ariaLabel: 'Tierra Garat',
-                    }}
-                    buttonKind={KIND.secondary}
-                    buttonState="disabled"
-                    buttonLabel="Ver mi progreso"
-                    onClick={() => {}}
-                    overrides={{Root: {style: {marginBottom: '30px'}}, Image: {style: {opacity: '0.4', backgroundSize: '60%', backgroundRepeat: 'no-repeat'}}}}
-                  />
-                { isLoading ? (
-                  <MessageCard
-                      heading="⏳ Cargando el módulo"
-                      paragraph={`Estamos cargando la información del módulo ${params.slug}, espera un momento...`}
-                      image={{
-                        src:
-                          "https://picsum.photos/400/200"
-                      }}
-                      overrides={{Root: {style: {width: '320px', margin: 'auto'}}}}
-                    />
-                  ) : renderDetailComponents() }
+            <MessageCard
+                heading={<p><Alert size={24} /> Tu progreso está a salvo</p>}
+                paragraph="Recuerda que tu progreso se mantiene a salvo en tu cuenta, para guardar el avance es necesario que visualices el material en su totalidad."
+                image={{
+                  src: '/media/LogoFooter.png',
+                  layout: IMAGE_LAYOUT.trailing,
+                  ariaLabel: 'Tierra Garat',
+                }}
+                buttonKind={KIND.secondary}
+                buttonState="disabled"
+                buttonLabel="Ver mi progreso"
+                onClick={() => {}}
+                overrides={{Root: {style: {marginBottom: '30px'}}, Image: {style: {opacity: '0.4', backgroundSize: '60%', backgroundRepeat: 'no-repeat'}}}}
+              />
+            { isLoading ? (
+              <MessageCard
+                  heading="⏳ Cargando el módulo"
+                  paragraph={`Estamos cargando la información del módulo ${params.slug}, espera un momento...`}
+                  image={{
+                    src:
+                      "https://picsum.photos/400/200"
+                  }}
+                  overrides={{Root: {style: {width: '320px', margin: 'auto'}}}}
+                />
+              ) : renderDetailComponents() }
 
-              </div>
-            </section>
           </div>
-
-        </BaseProvider>
-      </StyletronProvider>
+        </section>
+      </div>
   );
 };
 

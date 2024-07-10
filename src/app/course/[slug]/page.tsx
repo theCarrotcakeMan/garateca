@@ -1,39 +1,33 @@
 "use client"
-import { notFound } from 'next/navigation'
 
 import { getCourseDetail } from './utils/actions';
+import { notFound } from 'next/navigation';
+import Image from 'next/image';
 import { useEffect, useState, Fragment } from "react";
-import { Client as Styletron } from 'styletron-engine-atomic';
-import { Provider as StyletronProvider } from 'styletron-react';
-import { LightTheme, BaseProvider, styled } from 'baseui';
-import { Button, KIND } from 'baseui/button';
-import {
-  Upload,
-  ArrowRight,
-} from 'baseui/icon';
-
-import { MessageCard, IMAGE_LAYOUT } from "baseui/message-card";
+import { Button } from 'baseui/button';
+import { MessageCard } from "baseui/message-card";
 import { HeadingLevel, Heading } from 'baseui/heading';
-import {
-  Card,
-  StyledAction
-} from "baseui/card";
-import { Image } from 'next/image';
-
-
-const engine = new Styletron();
+import { Card, StyledAction } from "baseui/card";
+import { ArrowRight } from 'baseui/icon';
 
 interface DetailType {
   label: string,
-  lessons: Array<object>,
+  slug: string,
+  category: string,
+  mediaUrl: string,
+  lessons: Array<any>,
 }
 
 function CourseDetailPage ({ params }: { params: { slug: string } }) {
 
-  const [courseDetail, setCourseDetail] = useState<DetailType>({label: ''});
+  const [courseDetail, setCourseDetail] = useState<DetailType>();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect( () => {
+
+    // Throw 404 if no slug is present in the url
+    if(! params?.slug )
+      return notFound();
 
     getCourseDetail(params.slug, setCourseDetail);
 
@@ -41,15 +35,10 @@ function CourseDetailPage ({ params }: { params: { slug: string } }) {
 
   useEffect( () => {
 
-    if(courseDetail)
+    if(typeof courseDetail !== 'undefined')
       setIsLoading(false);
 
   }, [courseDetail]);
-  
-  // Throw 404 if no slug is present in the url
-  if(! params?.slug)
-    return notFound();
-
 
   const renderDetailComponents = () => {
 
@@ -84,48 +73,41 @@ function CourseDetailPage ({ params }: { params: { slug: string } }) {
               ))
           }
         </div>
-
       </Fragment>
     );
   }
 
 
   return (
-      <StyletronProvider value={engine}>
-        <BaseProvider theme={LightTheme}>
+      <div id="backgroundContainer" className="bg-sand-pattern bg-repeat-x bg-bottom bg-blend-multiply pb-32">
+          <section id="container" className="container m-auto min-h-screen">
 
-          <div id="backgroundContainer" className="bg-sand-pattern bg-repeat-x bg-bottom bg-blend-multiply pb-32">
-            <section id="container" className="container m-auto min-h-screen">
-
-              <header className="block w-full m-auto pt-10 pb-20">
-                <a href="/">
-                  <Image
-                    src="/media/logo_tg.png"
-                    className="block w-52"
-                    alt="Tierra Garat - Universidad para capacitación de nuestros colaboradores"
-                    />
-                </a>
-              </header>
-              <div className="w-9/12 mx-auto">
-
-                { isLoading ? (
+            <header className="block w-full m-auto pt-10 pb-20">
+              <a href="/">
+                <Image
+                  src="/logo_tg.png"
+                  width={1030}
+                  height={300}
+                  className="block w-52"
+                  alt="Tierra Garat - Universidad para capacitación de nuestros colaboradores"
+                  />
+              </a>
+            </header>
+            <div className="w-9/12 mx-auto">
+              {
+                ( isLoading && typeof courseDetail === 'undefined' ) ? (
                   <MessageCard
                       heading="⏳ Cargando el curso"
                       paragraph="Estamos cargando la información del curso, espera un momento..."
-                      image={{
-                        src:
-                          "/media/loadingContent.png"
-                      }}
+                      image={{ src: "/media/loadingContent.png" }}
                       overrides={{Root: {style: {width: '320px', margin: 'auto'}}}}
                     />
-                  ) : renderDetailComponents() }
-
-              </div>
-            </section>
-          </div>
-
-        </BaseProvider>
-      </StyletronProvider>
+                  )
+                : renderDetailComponents()
+              }
+            </div>
+          </section>
+        </div>
   );
 };
 

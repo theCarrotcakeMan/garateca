@@ -1,5 +1,3 @@
-"use client"
-
 import MainFooter from "./Footer";
 
 export default function FooterWrapper() {

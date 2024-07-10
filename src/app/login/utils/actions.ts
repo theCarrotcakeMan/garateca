@@ -9,11 +9,12 @@ import { set as setUser, remove as removeUser, populateSession } from '/src/redu
 import { set as setAuth, remove as removeAuth } from '/src/redux/Features/Auth/authSlice';
 
 
-const useLoggedStatus = () => {
+const useLoggedStatus = async () => {
 
-  const decodedToken  =  useToken(true);
   var response = null;
-  if(decodedToken){
+  const decodedToken  =  await useToken(true);
+
+  if(!decodedToken){
     response = false;
     // TODO: Validate real user object instead
     if(decodedToken?.name === 'TokenExpiredError'){

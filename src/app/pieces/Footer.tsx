@@ -1,13 +1,14 @@
-"use client"
+import Image from 'next/image';
 
-import { Image } from 'next/image';
-
-const MainFooter = () => (
+const MainFooter = () => {
+  return(
     <footer className="bottom-0 py-6 w-screen text-center bg-action flex justify-center">
       <a href="">
         <Image
           src="/media/LogoFooter.png"
           alt="Tierra Garat logotipo small"
+          width={89}
+          height={125}
           className="w-28 m-4"
           style={{minWidth: '100px'}}
           />
@@ -31,6 +32,7 @@ const MainFooter = () => (
         <li><a href="#">IG</a></li>
       </ul>
     </footer>
-)
+  )
+}
 
 export default MainFooter;

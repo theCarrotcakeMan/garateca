@@ -1,29 +1,39 @@
-import '/src/assets/globals.css';
+"use client"
 
-import type { Metadata } from 'next';
-import FooterWrapper from './pieces/FooterWrapper';
-import { ReduxProvider } from '/src/redux/provider';
+import '../assets/globals.css';
+import MainFooter from "./pieces/Footer";
+import ReduxProvider from '../redux/provider';
 
-export const metadata: Metadata = {
-  title: 'Universidad Tierra Garat ',
-  description: 'Training para el personal de cafeterías',
+import { Client as Styletron } from 'styletron-engine-atomic';
+import { Provider as StyletronProvider } from 'styletron-react';
+import { LightTheme, BaseProvider } from 'baseui';
+import { ReactNode } from 'react';
+import { useStyletron } from '../lib/styletron';
+
+interface RootLayoutProps {
+  children: ReactNode;
+  title: string;
 }
 
-function RootLayout({
-  children
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout( { children, title } : RootLayoutProps ) {
+
+  const engine = useStyletron();
+
   return (
-      <html lang="en">
-          <body className="bg-maroon flex-column">
+    <html lang="en">
+      <head>
+        <title>{title}</title>
+      </head>
+      <body className="bg-maroon flex-column">
+        <StyletronProvider value={engine}>
+          <BaseProvider theme={LightTheme}>
             <ReduxProvider>
               {children}
-              <FooterWrapper />
+              <MainFooter />
             </ReduxProvider>
-          </body>
-      </html>
-  )
+          </BaseProvider>
+        </StyletronProvider>
+      </body>
+    </html>
+  );
 }
-
-export default RootLayout;

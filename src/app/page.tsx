@@ -1,13 +1,9 @@
 "use client"
 
-import { Client as Styletron } from 'styletron-engine-atomic';
-import { Provider as StyletronProvider } from 'styletron-react';
-import { LightTheme, BaseProvider, styled } from 'baseui';
-import dynamic from 'next/dynamic';
-
-const Image = dynamic(() => import('next/image'), { ssr: false });
-
-const engine = new Styletron();
+import { React } from 'react';
+import { redirect } from 'next/navigation'
+import { useEffect } from 'react';
+import Image from 'next/image'
 
 const Page = () => {
 
@@ -22,33 +18,28 @@ const Page = () => {
   }
 
   useEffect(() => {
-    // Client-side only code
+     redirect('/login');
   }, []);
 
   return (
-    <StyletronProvider value={engine}>
-      <BaseProvider theme={LightTheme}>
-
           <section id="container" className="container m-auto min-h-screen">
             <div className="flex justify-center min-h-fit items-center py-20">
 
               <header className="w-3/5 m-auto">
                 <Image
-                  src="logo_tg.png"
+                  src="/logo_tg.png"
+                  width={1030}
+                  height={300}
                   className="block w-full"
                   alt="Tierra Garat"
                   />
                 <ul className="">
                   <li>Mi avance</li>
-                  <li onClick={ handleLogout } >Logout</li>
                 </ul>
               </header>
 
             </div>
           </section>
-
-      </BaseProvider>
-    </StyletronProvider>
   );
 }
 

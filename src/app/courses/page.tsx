@@ -1,17 +1,14 @@
 "use client"
 
 import { getCoursesListing } from './utils/actions';
+import { remove as removeAuth } from '/src/redux/Features/Auth/authSlice';
 import { useEffect, useState, Fragment } from 'react';
-import { useRouter } from 'next/router';
-import { Image } from 'next/image'
+import { useRouter } from 'next/navigation';
+import Image from 'next/image'
 
-import { Client as Styletron } from 'styletron-engine-atomic';
-import { Provider as StyletronProvider } from 'styletron-react';
-import { LightTheme, BaseProvider, styled } from 'baseui';
 import { Button, KIND } from 'baseui/button';
 import { MessageCard } from 'baseui/message-card';
 import { useAppDispatch } from "/src/redux/hooks";
-import { remove as removeAuth } from '/src/redux/Features/Auth/authSlice';
 import {
   Card,
   StyledBody,
@@ -19,23 +16,20 @@ import {
 } from "baseui/card";
 import { HeadingLevel, Heading } from 'baseui/heading';
 
-const engine = new Styletron();
-
-const handleLogout = () => {
+const handleLogout = (dispatch, router) => {
 
   console.log("Clearing session");
-  dispatch(removeAuth());
-
-  router.push('login');
+  // dispatch(removeAuth());
+  //
+  // router.push('login');
 }
 
 function CoursesListingPage() {
 
-  const [courses, setCourses] = useState('');
-  const [isLoading, setIsLoading] = useState(true);
-
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const [courses, setCourses] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
   const articleElements = () => {
 
@@ -59,7 +53,11 @@ function CoursesListingPage() {
                       <StyledAction>
                         <Button
                           kind="secondary"
-                          onClick={() => {window.location.href = `course/${item.slug}`}}
+                          onClick={() => {
+                            if (typeof window !== 'undefined') {
+                              window.location.href = `course/${item.slug}`;
+                            }
+                          }}
                           overrides={{
                             BaseButton: { style: { width: "100%", backgroundColor: "#F2F2F2", color: "#353333" } }
                           }}
@@ -89,44 +87,40 @@ function CoursesListingPage() {
 
 
   return (
-    <StyletronProvider value={engine}>
-      <BaseProvider theme={LightTheme}>
+      <div id="backgroundContainer" className="bg-sand-pattern bg-repeat-x bg-bottom bg-blend-multiply pb-32">
+        <section id="container" className="container m-auto min-h-screen">
 
-        <div id="backgroundContainer" className="bg-sand-pattern bg-repeat-x bg-bottom bg-blend-multiply pb-32">
-          <section id="container" className="container m-auto min-h-screen">
+          <header className="block w-full m-auto pt-10 pb-20">
+            <a href="/">
+              <Image src="/media/logo_tg.png"
+                width={1030}
+                height={300}
+                className="block w-52"
+                alt="Tierra Garat - Universidad para capacitación de nuestros colaboradores"
+                />
+            </a>
+            <ul className="">
+              <li>Mi avance</li>
+              // <li onClick={handleLogout} >Logout</li>
+            </ul>
+          </header>
+          <div className="w-9/12 mx-auto">
 
-            <header className="block w-full m-auto pt-10 pb-20">
-              <a href="/">
-                <Image src="/media/logo_tg.png"
-                  className="block w-52"
-                  alt="Tierra Garat - Universidad para capacitación de nuestros colaboradores"
-                  />
-              </a>
-              <ul className="">
-                <li>Mi avance</li>
-                <li onClick={handleLogout} >Logout</li>
-              </ul>
-            </header>
-            <div className="w-9/12 mx-auto">
+            { isLoading ? (
+              <MessageCard
+                  heading="⏳ Cargando los cursos"
+                  paragraph="Estamos cargando la información en la plataforma, espera un momento..."
+                  image={{
+                    src:
+                      "/media/loadingContent.png"
+                  }}
+                  overrides={{Root: {style: {width: '320px', margin: 'auto'}}}}
+                />
+              ) : articleElements() }
 
-              { isLoading ? (
-                <MessageCard
-                    heading="⏳ Cargando los cursos"
-                    paragraph="Estamos cargando la información en la plataforma, espera un momento..."
-                    image={{
-                      src:
-                        "/media/loadingContent.png"
-                    }}
-                    overrides={{Root: {style: {width: '320px', margin: 'auto'}}}}
-                  />
-                ) : articleElements() }
-
-            </div>
-          </section>
-        </div>
-
-      </BaseProvider>
-    </StyletronProvider>
+          </div>
+        </section>
+      </div>
   );
 }
 
