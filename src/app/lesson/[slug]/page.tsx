@@ -66,20 +66,20 @@ function LessonDetailPage ({ params }: { params: { slug: string } }) {
       event.target.pauseVideo();
     }
 
-    // return <div id="PartesPrivadas"><YouTube videoId={${contents[0].attachments.mediaUrl} opts={opts} onReady={this._onReady} /></div>;
+    // return <div id="elYoutubeVideo"><YouTube videoId={${contents[0].attachments.mediaUrl} opts={opts} onReady={this._onReady} /></div>;
 
     return(
       (lessonDetail.contents[0].type === 'media') ?
           <Fragment>
             <YouTube videoId={contents[0].attachments.mediaUrl} opts={opts} onReady={_onReady} />
-            <div>
-              Llamalo como quieras
+            <div className="hidden">
+
               <Button
                 kind="secondary"
                 // onClick={() => {window.location.href = `/lesson/${item.slug}`}}
                 endEnhancer={() => <ArrowRight size={24} />}
                 overrides={{
-                  BaseButton: { style: { width: "86%", bottom: '1rem', position: 'absolute', backgroundColor: "#F2F2F2", color: "#353333" } }
+                  BaseButton: { style: { width: '42%', bottom: '45%', position: 'relative', backgroundColor: '#F2F2F2', color: '#353333' } }
                 }} >
                 Comenzar el módulo
               </Button>
@@ -131,7 +131,7 @@ function LessonDetailPage ({ params }: { params: { slug: string } }) {
         <HeadingLevel>
           <Heading styleLevel={4} style={{margin: '0 auto 1.5rem 0', display: 'block', width: '100%', color: '#353333'}} >Lecciones</Heading>
         </HeadingLevel>
-        <div className="mx-auto flex">
+        <div className="mx-auto flex relative">
           {
             (contents) ?
               <article className="grow w-2/3">
